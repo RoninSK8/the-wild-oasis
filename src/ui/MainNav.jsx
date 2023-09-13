@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import {
-	HiOutlineHome,
 	HiOutlineCalendarDays,
-	HiOutlineModern,
-	HioutlineUsers,
 	HiOutlineCog6Tooth,
+	HiOutlineHome,
+	HiOutlineHomeModern,
+	HiOutlineUsers,
 } from 'react-icons/hi2';
 
 const NavList = styled.ul`
@@ -71,13 +71,13 @@ export default function MainNav() {
 				</li>
 				<li>
 					<StyledNavLink to="/cabins">
-						<HiOutlineModern />
+						<HiOutlineHomeModern />
 						<span>Cabins</span>
 					</StyledNavLink>
 				</li>
 				<li>
 					<StyledNavLink to="/users">
-						<HioutlineUsers />
+						<HiOutlineUsers />
 						<span>Users</span>
 					</StyledNavLink>
 				</li>
