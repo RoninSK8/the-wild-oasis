@@ -1,5 +1,3 @@
-import styled from 'styled-components';
-
 import Input from '../../ui/Input';
 import Form from '../../ui/Form';
 import Button from '../../ui/Button';
@@ -10,15 +8,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createCabin } from '../../services/apiCabins';
 import { toast } from 'react-hot-toast';
 import FormRow from '../../ui/FormRow';
-
-const Label = styled.label`
-	font-weight: 500;
-`;
-
-const Error = styled.span`
-	font-size: 1.4rem;
-	color: var(--color-red-700);
-`;
 
 function CreateCabinForm() {
 	const { register, handleSubmit, reset, getValues, formState } = useForm();
@@ -40,7 +29,7 @@ function CreateCabinForm() {
 	});
 
 	function onSubmit(data) {
-		mutate(data);
+		mutate({ ...data, image: data.image[0] });
 	}
 
 	function onError(err) {
@@ -123,9 +112,12 @@ function CreateCabinForm() {
 				/>
 			</FormRow>
 
-			<FormRow>
-				<Label htmlFor="image">Cabin photo</Label>
-				<FileInput id="image" accept="image/*" />
+			<FormRow label="Cabin photo">
+				<FileInput
+					id="image"
+					accept="image/*"
+					{...register('image', { required: 'This field is required' })}
+				/>
 			</FormRow>
 
 			<FormRow>
