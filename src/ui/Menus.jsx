@@ -66,17 +66,31 @@ const StyledButton = styled.button`
 `;
 
 const MenusContext = createContext();
-
 function Menus({ children }) {
 	const [openId, setOpenId] = useState('');
 	const [position, setPosition] = useState(null);
 
+	const [counter, setCounter] = useState(0);
+
+	const increaseCounter = () => {
+		setCounter((c) => c + 1);
+	};
+
 	const close = () => setOpenId('');
 	const open = setOpenId;
-
 	return (
 		<MenusContext.Provider
-			value={{ openId, close, open, position, setPosition }}
+			value={{
+				openId,
+				close,
+				open,
+				position,
+				setPosition,
+				counter,
+				increaseCounter,
+				setCounter,
+				setOpenId,
+			}}
 		>
 			{children}
 		</MenusContext.Provider>
@@ -84,7 +98,8 @@ function Menus({ children }) {
 }
 
 function Toggle({ id }) {
-	const { openId, close, open, setPosition } = useContext(MenusContext);
+	const { openId, close, open, setPosition, counter } =
+		useContext(MenusContext);
 
 	function handleClick(e) {
 		const rect = e.target.closest('button').getBoundingClientRect();
@@ -94,8 +109,8 @@ function Toggle({ id }) {
 		});
 
 		openId === '' || openId !== id ? open(id) : close();
+		console.log('openId', openId, 'id', id, 'counter', counter);
 	}
-
 	return (
 		<StyledToggle onClick={handleClick}>
 			<HiEllipsisVertical />
@@ -103,28 +118,28 @@ function Toggle({ id }) {
 	);
 }
 
+// в том, что не закрывается менюшка модалка виноват аутсайд клик, он срабатывает одновременно
+// с основным нажатием на точки и сбрасывает активный элемент на пустую строку
+
 function List({ id, children }) {
 	const { openId, position, close } = useContext(MenusContext);
-	const ref = useOutsideClick(close);
+	// const ref = useOutsideClick(close);
 
 	if (openId !== id) return null;
 
 	return createPortal(
-		<StyledList position={position} ref={ref}>
-			{children}
-		</StyledList>,
+		<StyledList position={position}>{children}</StyledList>,
 		document.body
 	);
 }
 
-function Button({ children, icon, onClick }) {
+function Button({ children, onClick, icon }) {
 	const { close } = useContext(MenusContext);
 
 	function handleClick() {
 		onClick?.();
 		close();
 	}
-
 	return (
 		<li>
 			<StyledButton onClick={handleClick}>
@@ -134,6 +149,13 @@ function Button({ children, icon, onClick }) {
 		</li>
 	);
 }
+
+// function Menu({ children }) {
+// 	const { close } = useContext(MenusContext);
+// 	const ref = useOutsideClick(close);
+
+// 	return <StyledMenu ref={ref}>{children}</StyledMenu>;
+// }
 
 Menus.Menu = Menu;
 Menus.Toggle = Toggle;
