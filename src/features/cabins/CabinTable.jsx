@@ -12,20 +12,18 @@ export default function CabinTable() {
 	const filterValue = searchParams.get('discount') || 'all';
 
 	let filteredCabins;
-	switch (filterValue) {
-		case 'all':
-			filteredCabins = cabins;
-			break;
-		case 'no-discount':
-			filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
-			break;
-		case 'with-discount':
-			filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
-			break;
-		default:
-			throw new Error('Wrong filter value');
-	}
+	if (filterValue === 'all') filteredCabins = cabins;
+	if (filterValue === 'no-discount')
+		filteredCabins = cabins?.filter((cabin) => cabin.discount === 0);
+	if (filterValue === 'with-discount')
+		filteredCabins = cabins?.filter((cabin) => cabin.discount > 0);
 
+	const sortBy = searchParams.get('sortBy') || 'startDate-asc';
+	const [field, direction] = sortBy.split('-');
+	const modifier = direction === 'asc' ? 1 : -1;
+	const sortedCabins = filteredCabins?.sort(
+		(a, b) => (a[field] - b[field]) * modifier
+	);
 	if (isLoading) {
 		return <Spinner />;
 	}
@@ -40,7 +38,7 @@ export default function CabinTable() {
 					<div>Discount</div>
 					<div></div>
 				</Table.Header>
-				{filteredCabins.map((cabin) => (
+				{sortedCabins.map((cabin) => (
 					<CabinRow cabin={cabin} key={cabin.id} />
 				))}
 			</Table>
