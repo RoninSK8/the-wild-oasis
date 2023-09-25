@@ -4,6 +4,7 @@ import { useCabins } from './useCabins';
 import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';
 import { useSearchParams } from 'react-router-dom';
+import Empty from '../../ui/Empty';
 
 export default function CabinTable() {
 	const { isLoading, cabins } = useCabins();
@@ -31,6 +32,11 @@ export default function CabinTable() {
 	if (isLoading) {
 		return <Spinner />;
 	}
+
+	if (!cabins.length) {
+		return <Empty resourceName={'cabins'} />;
+	}
+
 	return (
 		<Menus>
 			<Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
