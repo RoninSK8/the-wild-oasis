@@ -6,7 +6,11 @@ import Table from '../../ui/Table';
 
 import { formatCurrency } from '../../utils/helpers';
 import { formatDistanceFromNow } from '../../utils/helpers';
-import { HiEye, HiMiniDocumentMinus } from 'react-icons/hi2';
+import {
+	HiArrowDownOnSquare,
+	HiEye,
+	HiMiniDocumentMinus,
+} from 'react-icons/hi2';
 import Menus from '../../ui/Menus';
 import { useNavigate } from 'react-router-dom';
 
@@ -85,14 +89,22 @@ function BookingRow({
 			<Amount>{formatCurrency(totalPrice)}</Amount>
 
 			<Menus.Menu>
-				<Menus.Toggle />
-				<Menus.List>
+				<Menus.Toggle id={bookingId} />
+				<Menus.List id={bookingId}>
 					<Menus.Button
 						icon={<HiEye />}
 						onClick={() => navigate(`/bookings/${bookingId}`)}
 					>
 						See details
 					</Menus.Button>
+					{status === 'unconfirmed' && (
+						<Menus.Button
+							icon={<HiArrowDownOnSquare />}
+							onClick={() => navigate(`/bookings/${bookingId}`)}
+						>
+							Check in
+						</Menus.Button>
+					)}
 				</Menus.List>
 			</Menus.Menu>
 		</Table.Row>
