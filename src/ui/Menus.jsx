@@ -102,6 +102,7 @@ function Toggle({ id }) {
 		useContext(MenusContext);
 
 	function handleClick(e) {
+		e.stopPropagation();
 		const rect = e.target.closest('button').getBoundingClientRect();
 		setPosition({
 			x: window.innerWidth - rect.width - rect.x,
@@ -118,17 +119,16 @@ function Toggle({ id }) {
 	);
 }
 
-// в том, что не закрывается менюшка модалка виноват аутсайд клик, он срабатывает одновременно
-// с основным нажатием на точки и сбрасывает активный элемент на пустую строку
-
 function List({ id, children }) {
 	const { openId, position, close } = useContext(MenusContext);
-	// const ref = useOutsideClick(close);
+	const ref = useOutsideClick(close, false);
 
 	if (openId !== id) return null;
 
 	return createPortal(
-		<StyledList position={position}>{children}</StyledList>,
+		<StyledList position={position} ref={ref}>
+			{children}
+		</StyledList>,
 		document.body
 	);
 }
@@ -149,13 +149,6 @@ function Button({ children, onClick, icon }) {
 		</li>
 	);
 }
-
-// function Menu({ children }) {
-// 	const { close } = useContext(MenusContext);
-// 	const ref = useOutsideClick(close);
-
-// 	return <StyledMenu ref={ref}>{children}</StyledMenu>;
-// }
 
 Menus.Menu = Menu;
 Menus.Toggle = Toggle;
