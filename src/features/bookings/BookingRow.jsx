@@ -10,12 +10,11 @@ import {
 	HiArrowDownOnSquare,
 	HiArrowUpOnSquare,
 	HiEye,
-	HiMiniDocumentMinus,
 	HiTrash,
 } from 'react-icons/hi2';
 import Menus from '../../ui/Menus';
 import { useNavigate } from 'react-router-dom';
-import { useCheckout } from '../check-in-out/useCheckOut';
+import { useCheckout } from '../check-in-out/useCheckout';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import { useDeleteBooking } from './useDeleteBooking';
 import Modal from '../../ui/Modal';
