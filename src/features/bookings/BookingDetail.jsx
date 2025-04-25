@@ -14,7 +14,7 @@ import Empty from '../../ui/Empty';
 import { useBooking } from './useBooking';
 import { HiArrowUpOnSquare, HiTrash } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
-import { useCheckout } from '../check-in-out/useCheckOut';
+import { useCheckout } from '../check-in-out/useCheckout';
 import { useDeleteBooking } from './useDeleteBooking';
 import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
